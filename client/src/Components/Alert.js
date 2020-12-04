@@ -92,7 +92,7 @@ timer();
 
 
 function mapStateToProps(state){
-console.log(state.signin)
+
  return{
 register:state.register,
 usercreated:state.register.user,

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import CSSstyle from './App.module.css';
 import Navigation from './Components/Navigation/Navigation';
 import Footer from './Components/Footer/Footer';
@@ -13,13 +13,18 @@ import Landingpage from "./Components/landingpage/landingpage";
 import EditProfileForm from './Components/EditProfileForm/EditProfileForm';
 import Loading from "./Components/loading"
 import {connect} from "react-redux"
+import {useHistory} from "react-router-dom";
+
+
 class App extends Component {
 
- 
+
 
   render() {
   const  loading = this.props.isloading;
   const signinloading = this.props.signinloading;
+const { isAuthenticated } = this.props.auth;
+
 
     return (
       <BrowserRouter>
@@ -31,7 +36,9 @@ class App extends Component {
        <Switch>
        <Route path='/signup'  exact component={Signup} />
         <Route path='/signin'  exact component={Signin} />
-        <Route path='/timeline'  exact component={Timeline} />
+     {isAuthenticated ? <Fragment>
+      <Route path='/timeline'  exact component={Timeline} />
+     </Fragment> :  ''}   
         <Route path='/profile'  exact component={Profile} />
         <Route path='/editprofile'  exact component={EditProfileForm} />
         <Route path='/resetpassword'  exact component={ResetForm} />
@@ -57,7 +64,8 @@ function mapStateToProps(state){
   console.log(state)
   return{
     isloading:state.register.loading,
-    signinloading:state.signin.loading
+    signinloading:state.signin.loading,
+    auth : state.signin
   }
 }
   

@@ -1,35 +1,42 @@
-import jwtdecode from "jwt-decode"
-import {SIGNIN_FAILED,SIGNIN_SUCCESS,LOADING_TRUE} from "../actiontype";
+import {SIGNIN_FAILED,SIGNIN_SUCCESS,LOADING_TRUE,LOGOUT} from "../actiontype";
+import jwtdecode from "jwt-decode";
 
 const initialstate={
     errors:null,
-    isAuthenticated: localStorage.getItem('token')  ? true : false,
+    isAuthenticated:localStorage.getItem('token') ? true : false,
     loading:false,
-    token:localStorage.getItem('token') || '',
-    user:  localStorage.getItem('token') ? jwtdecode(localStorage.getItem('token')) :  ''
+    token: localStorage.getItem('token') ? localStorage.getItem('token') : null,
+    user: localStorage.getItem('token') ? jwtdecode(localStorage.getItem('token')) : null
 };
 
 export const signinReducers = ( state = initialstate , {type,payload}) => {
   
-    
     switch (type) {
         case SIGNIN_SUCCESS:
-
-        localStorage.setItem('token',payload.token)
+if(payload.token){
+    localStorage.setItem('token',payload.token)
+}else{
+    localStorage.setItem('token','')
+}
+       
       return {
-          ...state,loading:false,...payload,isAuthenticated:true,error:null,...jwtdecode(payload.token)
+          ...state,...payload,loading:false, isAuthenticated:localStorage.getItem('token') ? true : false
       }
         
       case SIGNIN_FAILED:
-          
         return {
-            ...state,error:payload,user:null,isAuthenticated:false,token:null,
+            ...state,error:payload,
         loading:false }
 
         case LOADING_TRUE:
             return{
                 ...state,loading:true,circleloading:payload
             }
+            case LOGOUT:
+  localStorage.removeItem('token')
+                return{
+                   loading:false,circleloading:payload,isAuthenticated:false
+                }    
 
 
         default:

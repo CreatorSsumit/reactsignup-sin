@@ -33,11 +33,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Signin(props) {
   const classes = useStyles();
+  
 
   const initialForm = {username:"",password:"",};
   const initialError = {username:"",password:"",};
     const [formdata, setformdata] = useState(initialForm);
     const [error, seterror] = useState(initialError)
+    const {isAuthenticated} = props.auth;
     
    const onformchange = (e)=>{
      e.persist();
@@ -60,7 +62,8 @@ function Signin(props) {
     inputvalidation();
     if(formdata.username&&formdata.password){
       props.loadingaction()
-       props.signinuser(formdata);
+       props.signinuser(formdata,props.history);
+       
        
     }
      }

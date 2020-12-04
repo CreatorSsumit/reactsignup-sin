@@ -1,12 +1,13 @@
-import {SIGNIN_FAILED,SIGNIN_SUCCESS,LOADING_TRUE} from "../actiontype";
+import {SIGNIN_FAILED,SIGNIN_SUCCESS,LOADING_TRUE,LOGOUT} from "../actiontype";
 
 import axios from "../../utility/axiosconfig"
 
 
-export const signinuser = (existuser)=> dispatch =>{
+export const signinuser = (existuser,history)=> dispatch =>{
   
 axios.post('users/signin',existuser).then(success =>{
   console.log(success.data)
+  history.push('/timeline')
  return  dispatch(successSignin(success.data))
 }).catch(err =>{
   console.log(err)
@@ -20,6 +21,9 @@ type:SIGNIN_SUCCESS,
 payload:done
 });
 
+export const logOut = ()=> ({
+  type:LOGOUT
+  });
 
 export const failedSignin = (err)=> ({
     type:SIGNIN_FAILED,

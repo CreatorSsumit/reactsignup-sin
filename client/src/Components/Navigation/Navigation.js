@@ -7,8 +7,11 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Timeline from '@material-ui/icons/Timeline';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 import Settings from '@material-ui/icons/Settings';
-import {Link } from "react-router-dom";
+import {Link ,useHistory,withRouter} from "react-router-dom";
 import {connect} from "react-redux"
+import PropsTypes from "prop-types";
+import {bindActionCreators} from "redux";
+import {logOut} from "../../store/actions/signinaction"
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -38,6 +41,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Navigation(props) {
+
+  var history = useHistory();
 
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -69,7 +74,13 @@ function Navigation(props) {
   };
 
   const loggingout = () =>{
-
+        props.logOut();
+        handleMenuClose();
+        history.push({
+          pathname: '/',
+          search: '?query=abc',
+          state: { detail: 'some_value' }
+      })
   }
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -114,7 +125,7 @@ function Navigation(props) {
 
  const {isAuthenticated}  = props.auth ;
 
-
+        
 
 
   return (
@@ -128,7 +139,7 @@ function Navigation(props) {
 
          
 
-            <div className={classes.sectionDesktop}>
+            {isAuthenticated ? (<div className={classes.sectionDesktop}>
             <IconButton onClick={gotoTimeline}
               title="Timeline" color="inherit">
                 <Timeline />        
@@ -147,10 +158,10 @@ function Navigation(props) {
               title="Settings" color="inherit">
               <Settings />
             </IconButton>
-          </div>
+          </div>)  : null}
 
 
-
+          {isAuthenticated ? (
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
@@ -161,7 +172,7 @@ function Navigation(props) {
             >
               <MoreIcon />
             </IconButton>
-          </div>
+          </div> )  : null}
 
          
 
@@ -175,16 +186,16 @@ function Navigation(props) {
 
 
 function mapStateToProps(state){
-
+console.log(state.signin)
    return{
   auth:state.signin
-   }
-      
-    }
+   } }
     
-   
+function mapDispatchToProps(dispatch){
+      return bindActionCreators({logOut},dispatch)
+     }
     
-    export default connect(mapStateToProps,null)(Navigation);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Navigation));
   
   
 

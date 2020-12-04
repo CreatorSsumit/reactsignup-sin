@@ -3,11 +3,14 @@ import CSSstyle from './Header.module.css';
 import BackgroundVideo from '../../../assets/bg-video1.mp4';
 import { Grid, Box, Typography, Button } from '@material-ui/core';
 import HowToReg from '@material-ui/icons/HowToReg';
-import {useHistory} from "react-router-dom"
+import {useHistory,useLocation} from "react-router-dom"
 
 
-function Header() {
+function Header(props) {
   let history = useHistory();
+  let location = useLocation();
+
+  console.log(location)
     return (
       <Grid align="center" container className={CSSstyle.headerContainer}>
       <video className={CSSstyle.headerVideo} loop muted autoPlay src={BackgroundVideo} />
