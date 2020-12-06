@@ -6,9 +6,16 @@ import axios from "../../utility/axiosconfig"
 export const signinuser = (existuser,history)=> dispatch =>{
   
 axios.post('users/signin',existuser).then(success =>{
-  console.log(success.data)
+  
+ if(success.data.message  ===  'password incorrect'){
+  return  dispatch(failedSignin(success.data))
+
+ }else{
   history.push('/timeline')
- return  dispatch(successSignin(success.data))
+  return  dispatch(successSignin(success.data))
+ }
+
+  
 }).catch(err =>{
   console.log(err)
   return  dispatch(failedSignin(err.response.data))
