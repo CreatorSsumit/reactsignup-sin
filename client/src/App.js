@@ -14,9 +14,27 @@ import EditProfileForm from './Components/EditProfileForm/EditProfileForm';
 import Loading from "./Components/loading"
 import {connect} from "react-redux"
 import {useHistory} from "react-router-dom";
+import Axios from './utility/axiosconfig';
 
 
 class App extends Component {
+
+
+sessionLogin(){
+  if(localStorage.token){
+    Axios.defaults.headers.common['auth-token'] = localStorage.token;
+    this.props.loadUser(localStorage.token);
+
+  }else{
+    delete Axios.defaults.headers.common['auth-token'];
+
+  }
+}
+
+
+componentDidMount(){
+  this.loadUser();
+}
 
 
 
@@ -24,6 +42,9 @@ class App extends Component {
   const  loading = this.props.isloading;
   const signinloading = this.props.signinloading;
 const { isAuthenticated } = this.props.auth;
+
+
+   
 
 
     return (
