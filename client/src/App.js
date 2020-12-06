@@ -15,7 +15,8 @@ import Loading from "./Components/loading"
 import {connect} from "react-redux"
 import {useHistory} from "react-router-dom";
 import Axios from './utility/axiosconfig';
-
+import {loadUser} from "./store/actions/signinaction"
+import {bindActionCreators} from "redux"
 
 class App extends Component {
 
@@ -33,7 +34,7 @@ sessionLogin(){
 
 
 componentDidMount(){
-  this.loadUser();
+  this.sessionLogin();
 }
 
 
@@ -91,9 +92,11 @@ function mapStateToProps(state){
 }
   
   
-
+function send(dispatch){
+  return bindActionCreators({loadUser},dispatch)
+}
 
  
 
 
-export default connect(mapStateToProps,null)(App)
+export default connect(mapStateToProps,send)(App)

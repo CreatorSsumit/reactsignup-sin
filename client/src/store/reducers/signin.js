@@ -28,6 +28,11 @@ if(payload.token){
             ...state,error:payload,
         loading:false }
 
+        case 'LOAD_USER':
+        return {
+            ...state,token:payload,isAuthticated:true,...jwtdecode(payload),error:null,
+        loading:false }
+
         case LOADING_TRUE:
             return{
                 ...state,loading:true,circleloading:payload

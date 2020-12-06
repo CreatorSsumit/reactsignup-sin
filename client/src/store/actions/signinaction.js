@@ -28,6 +28,15 @@ type:SIGNIN_SUCCESS,
 payload:done
 });
 
+
+export const loadUser = (token)=> ({
+  type:'LOAD_USER',
+  payload:token
+  });
+
+
+
+
 export const logOut = ()=> ({
   type:LOGOUT
   });
