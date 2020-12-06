@@ -23,16 +23,27 @@ axios.post('users/signin',existuser).then(success =>{
 }
 
 
-export const successSignin = (done)=> ({
-type:SIGNIN_SUCCESS,
-payload:done
+export const successSignin = (auth)=> dispatch => {
+  
+  axios.defaults.headers.common = auth.token;
+
+  return dispatch ({
+    type:SIGNIN_SUCCESS,
+payload:auth
 });
+
+};
 
 
 export const loadUser = (token)=> ({
   type:'LOAD_USER',
   payload:token
   });
+
+
+  
+
+
 
 
 
