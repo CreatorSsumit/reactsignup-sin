@@ -1,8 +1,10 @@
 import {combineReducers} from "redux";
 import {registerReducers} from "./registerd";
-import {signinReducers} from './signin'
+import {signinReducers} from './signin';
+import {authTokenReduser} from "./authtoken"
 
 export default combineReducers({
     register:registerReducers,
-    signin:signinReducers
+    signin:signinReducers,
+    posts:authTokenReduser
 })

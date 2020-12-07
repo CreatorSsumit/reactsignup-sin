@@ -6,8 +6,8 @@ import axios from "../../utility/axiosconfig"
 export const timeliner = ()=> dispatch =>{
   
 axios.get('users/posts/timeline').then(success =>{
-console.log(success)
-// return  dispatch(successRegister(success.data.message))
+
+ return  dispatch(successRes(success.data))
 }).catch(err =>{
     console.log(err.response.data)
 return  dispatch(failedRes(err.response.data))

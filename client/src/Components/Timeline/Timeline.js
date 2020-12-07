@@ -9,7 +9,7 @@ import {loadUser} from "../../store/actions/signinaction"
 import Axios from "../../utility/axiosconfig"
 function Timeline(props) {
 
-props.timeliner()
+
 
 // const sessionLogin = () =>{
 
@@ -66,8 +66,10 @@ props.timeliner()
 
 
 function recive(state){
-    return{
 
+    console.log(state.posts)
+return{
+posts:state.posts.posts
     }
 }
 
