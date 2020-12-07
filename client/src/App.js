@@ -23,6 +23,8 @@ class App extends Component {
 
 sessionLogin(){
   if(localStorage.token){
+
+    console.log(localStorage.token)
     Axios.defaults.headers.common['auth-token'] = localStorage.token;
     this.props.loadUser(localStorage.token);
 
@@ -33,9 +35,9 @@ sessionLogin(){
 }
 
 
-componentDidMount(){
-  this.sessionLogin();
-}
+ componentDidMount(){
+   this.sessionLogin();
+ }
 
 
 
@@ -83,7 +85,7 @@ const { isAuthenticated } = this.props.auth;
 }
 
 function mapStateToProps(state){
-  console.log(state)
+
   return{
     isloading:state.register.loading,
     signinloading:state.signin.loading,

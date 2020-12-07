@@ -35,16 +35,12 @@ payload:auth
 };
 
 
-export const loadUser = (token)=> ({
+export const loadUser = (token)=> 
+({
+
   type:'LOAD_USER',
   payload:token
   });
-
-
-  
-
-
-
 
 
 

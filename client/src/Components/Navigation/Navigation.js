@@ -127,7 +127,6 @@ function Navigation(props) {
 
         
 
-
   return (
     <div className={classes.grow}>
       <AppBar position="static" className={CSSstyle.backgroundColor}>
@@ -186,7 +185,7 @@ function Navigation(props) {
 
 
 function mapStateToProps(state){
-console.log(state.signin)
+
    return{
   auth:state.signin
    } }

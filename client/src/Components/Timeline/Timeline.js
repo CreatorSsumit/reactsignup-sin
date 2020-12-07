@@ -1,9 +1,47 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import CSSstyle from './Timeline.module.css';
 import { Container, Typography, Button, Divider, Box } from '@material-ui/core';
 import Post from '../Post/Post';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {timeliner} from "../../store/actions/authtoken"
+import {loadUser} from "../../store/actions/signinaction"
+import Axios from "../../utility/axiosconfig"
+function Timeline(props) {
 
-function Timeline() {
+props.timeliner()
+
+// const sessionLogin = () =>{
+
+//     let auth = localStorage.getItem('token');
+
+//     if(auth){
+  
+//       console.log(auth)
+//       Axios.defaults.headers.common['auth-token'] = auth;
+//     props.loadUser(auth);
+  
+//     }else{
+//       delete Axios.defaults.headers.common['auth-token'];
+  
+//     }
+//   }
+  
+  
+
+
+//   useEffect(() => {
+//     props.timeliner()
+//       sessionLogin();
+     
+//       return () => {
+          
+//       }
+//   }, [])
+
+
+
+
     return (
         <Container>
             <Typography variant="h4">
@@ -26,4 +64,16 @@ function Timeline() {
     )
 }
 
-export default Timeline
+
+function recive(state){
+    return{
+
+    }
+}
+
+
+function send(dispatch){
+    return bindActionCreators({timeliner,loadUser},dispatch)
+}
+
+export default connect(recive,send)(Timeline)

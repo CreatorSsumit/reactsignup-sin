@@ -1,16 +1,31 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import CSSstyle from './Header.module.css';
 import BackgroundVideo from '../../../assets/bg-video1.mp4';
 import { Grid, Box, Typography, Button } from '@material-ui/core';
 import HowToReg from '@material-ui/icons/HowToReg';
-import {useHistory,useLocation} from "react-router-dom"
+import {useHistory,useLocation} from "react-router-dom";
+import {connect} from "react-redux"
 
 
 function Header(props) {
   let history = useHistory();
   let location = useLocation();
 
-  console.log(location)
+  var {isAuthenticated} = props.auth
+
+  
+
+  useEffect(() => {
+    if(isAuthenticated){
+      history.push('/timeline')
+    }else{
+      history.push('/')
+    }
+    
+  }, [props.auth])
+
+  
+
     return (
       <Grid align="center" container className={CSSstyle.headerContainer}>
       <video className={CSSstyle.headerVideo} loop muted autoPlay src={BackgroundVideo} />
@@ -26,4 +41,10 @@ function Header(props) {
     )
 }
 
-export default Header;
+function mapStateToProps(state){
+  return{
+    auth:state.signin
+  }
+}
+
+export default connect(mapStateToProps,null)(Header);

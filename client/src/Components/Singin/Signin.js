@@ -8,7 +8,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropsTypes from "prop-types";
 import Alert from "../Alert"
-import {signinuser,loadingaction} from "../../store/actions/signinaction"
+import {signinuser,loadingaction,loadUser} from "../../store/actions/signinaction";
+import Axios from "../../utility/axiosconfig"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +57,7 @@ function Signin(props) {
       seterror(prevstate =>({...prevstate,password:"Password must not empty"}) )
      }
    }
+
   
    const onformsubmit =(e)=>{
     e.preventDefault();
@@ -63,7 +65,9 @@ function Signin(props) {
     if(formdata.username&&formdata.password){
       props.loadingaction()
       props.signinuser(formdata,props.history);
-       
+     
+      
+      
        
     }
      }
@@ -142,7 +146,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
- return bindActionCreators({signinuser,loadingaction},dispatch)
+ return bindActionCreators({signinuser,loadingaction,loadUser},dispatch)
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Signin);
