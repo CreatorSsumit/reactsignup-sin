@@ -41,9 +41,6 @@ useEffect(()=>{
 },[props.auth])
 
 
-console.log(user)
-
-
     return (
         <Container>
             <Typography variant="h6">
@@ -59,8 +56,7 @@ console.log(user)
             <Typography variant="h5">Trending Posts</Typography>
             <Box className={CSSstyle.posts}>
                  <Typography align="center" style={{color:"gray"}} variant="h6">no Posts available</Typography>
-           
-    </Box>  
+      </Box>  
     </Container>
 
     )
