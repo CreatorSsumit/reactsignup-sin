@@ -18,9 +18,6 @@ var history = useHistory();
 
  var {isAuthenticated} = props.auth
 
-
-
-
 useEffect(()=>{
   
 
@@ -44,13 +41,14 @@ useEffect(()=>{
 },[props.auth])
 
 
+console.log(user)
 
 
     return (
         <Container>
             <Typography variant="h6">
             Hello { user ? user.username : '' }
-            <span role="img" aria-label="hi" aria-labelledby="hi">👋 {user ? `${user.email}` : '' } </span>
+            <span role="img" aria-label="hi" aria-labelledby="hi">👋 {user ? `${user.fullname}` : '' } </span>
             </Typography>
             <Button
             type="submit"
@@ -60,7 +58,7 @@ useEffect(()=>{
           <Divider style={{margin: '1em 0'}} />
             <Typography variant="h5">Trending Posts</Typography>
             <Box className={CSSstyle.posts}>
-                 <Typography align="center" color="secondary" variant="h3">no Posts available</Typography>
+                 <Typography align="center" style={{color:"gray"}} variant="h6">no Posts available</Typography>
            
     </Box>  
     </Container>
