@@ -6,8 +6,7 @@ const jwttoken = require('../Model/key').url.jwt;
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path')
-
-const upload = require('../routes/utility/multimedia').single('avatar')
+var store = require('store')
 
 /** @route /user */
 
@@ -21,37 +20,97 @@ exports.Signup = (req,res,next) =>{
 const errors = validationResult(req) 
  if(!errors.isEmpty()) return res.status(406).json(errors.errors)
 
-var {username,password,email}  =  req.body
-var newUser = new User({username,password,email})
+var {fullname,password,email,otp,contact}  =  req.body
 
-User.findOne({username}).then((user)=>{
- if(user) return res.status(302).json({message : 'user already registerd'})
- bcrypt.genSalt(10,(err,salt)=>{
-            bcrypt.hash(newUser.password,salt,(err,hash)=>{
-                
-                if(err) throw err;
-                newUser.password = hash ;
 
-                newUser.save().then(user => res.status(201).json({message : 'new user created',user})  ).catch((err)=>{
-                    res.status(500).json({message : "Internal server plm",error:err})
-                })
+var newUser = new User({fullname,password,email,contact})
 
-            })
-        })
-        
-  
-    })
+ var otplocal =  store.get('otp').otp;
+
+ if(otplocal === otp){
+    User.findOne({email}).then((user)=>{
+        if(user) return res.status(302).json({message : 'user already registerd'})
+       
+       
+        bcrypt.genSalt(10,(err,salt)=>{
+                   bcrypt.hash(newUser.password,salt,(err,hash)=>{
+                       
+                       if(err) throw err;
+                       newUser.password = hash ;
+       
+                       newUser.save().then(user => res.status(201).json({message : 'new user created',user})  ).catch((err)=>{
+                           res.status(500).json({message : "Internal server plm",error:err})
+                       })
+       
+                   })
+               })
+               
+         
+           })
+ }else{
+   return res.status(500).json({message : "Otp Incorrect"})
+ }
+
+
 }
+
+exports.otpcheck = (req,res,next) =>{
+    const errors = validationResult(req) 
+     if(!errors.isEmpty()) return res.status(406).json(errors.errors)
+    
+    var {email}  =  req.body
+
+
+    
+    var otp = String( Math.floor(Math.random()* 999999999-1000000) +1000000);
+  
+    var transport = nodemailer.createTransport({
+        service:"gmail",
+        auth:{
+            user:'creatorssumit@gmail.com',
+            pass:"Madurga98@"
+        }
+    })
+
+    var mailOptions = {
+        from:'"Fred Foo 👻" <developersumit98@gmail.com>',
+        to: email.trim(),
+        subject: "Auto genrated otp",
+        text:`your OTP is "${otp}".`
+    }
+
+    
+    transport.sendMail(mailOptions,(error,info)=>{
+        store.set('otp', { otp:otp })
+        
+        if(error) return res.status(401).json({message : 'Try Again Later ! Server Down'})
+    
+
+    }
+    
+  
+    
+    )
+
+
+}
+    
+
+
+
+
+
+
 
 /** @route /user/signin */
 
 exports.Signin = (req,res,next)=>{
     const errors = validationResult(req) 
     if(!errors.isEmpty()) return res.status(406).json(errors.errors);
-    var {username,password}  =  req.body
+    var {email,password}  =  req.body
     
     
-    User.findOne({username}).then((user)=>{
+    User.findOne({email}).then((user)=>{
         if(!user) return res.status(401).json({message : "user not found"})
         bcrypt.compare(password,user.password).then( isMatch =>{
        
@@ -66,31 +125,7 @@ var token = jwt.sign({user},jwttoken,{expiresIn :3600})
     
 }
 
-exports.Editprofile = (req,res,next)=>{
 
-  var usernamenew = req.user
-  var updateusername = usernamenew.username
-  
-
-    var {username,email,name,about,contact,gender,address} = req.body;
-   var update = {username,email,name,about,contact,gender,address } 
-   console.log(updateusername)
-
-    User.findOneAndUpdate(
-
-        {username:updateusername},
-        { $set:update },
-        {new:true ,useFindAndModify:false})
-
-        .then((reviseduser)=>{
-              
-            res.status(200).json({message:"sussessfully updated",reviseduser})
-        }
-    ).catch(err=>{
-        res.status(401).json({message:"internal server plm",error:err})
-    })
-
-}
 
 /** @route /user/resetpassword */
 

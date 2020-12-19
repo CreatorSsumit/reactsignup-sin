@@ -2,15 +2,11 @@ import React, { Component, Fragment } from 'react';
 import CSSstyle from './App.module.css';
 import Navigation from './Components/Navigation/Navigation';
 import Footer from './Components/Footer/Footer';
-import ForgotPassword from './Components/ForgotPassoword/ForgotPassword';
-import ResetForm from './Components/ResetForm/ResetForm';
 import {BrowserRouter,Switch,Route} from "react-router-dom"
-import Profile from './Components/Profile/Profile';
 import Timeline from './Components/Timeline/Timeline';
 import Signin from './Components/Singin/Signin';
 import Signup from './Components/Signup/Signup';
 import Landingpage from "./Components/landingpage/landingpage";
-import EditProfileForm from './Components/EditProfileForm/EditProfileForm';
 import Loading from "./Components/loading"
 import {connect} from "react-redux"
 import {useHistory} from "react-router-dom";
@@ -21,33 +17,12 @@ import {bindActionCreators} from "redux"
 class App extends Component {
 
 
-sessionLogin(){
-  if(localStorage.token){
-
-    console.log(localStorage.token)
-    Axios.defaults.headers.common['auth-token'] = localStorage.token;
-    this.props.loadUser(localStorage.token);
-
-  }else{
-    delete Axios.defaults.headers.common['auth-token'];
-
-  }
-}
-
-
- componentDidMount(){
-   this.sessionLogin();
- }
-
-
 
   render() {
   const  loading = this.props.isloading;
   const signinloading = this.props.signinloading;
 const { isAuthenticated } = this.props.auth;
 
-
-   
 
 
     return (
@@ -63,10 +38,10 @@ const { isAuthenticated } = this.props.auth;
      {isAuthenticated ? <Fragment>
       <Route path='/timeline'  exact component={Timeline} />
      </Fragment> :  ''}   
-        <Route path='/profile'  exact component={Profile} />
-        <Route path='/editprofile'  exact component={EditProfileForm} />
-        <Route path='/resetpassword'  exact component={ResetForm} />
-        <Route path='/forgetpassword'  exact component={ForgotPassword} />
+   
+       
+      
+   
        </Switch>
 
         {/* <Signin />

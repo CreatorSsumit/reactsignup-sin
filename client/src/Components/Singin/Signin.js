@@ -36,8 +36,8 @@ function Signin(props) {
   const classes = useStyles();
   
 
-  const initialForm = {username:"",password:"",};
-  const initialError = {username:"",password:"",};
+  const initialForm = {email:"",password:""};
+  const initialError = {email:"",password:""};
     const [formdata, setformdata] = useState(initialForm);
     const [error, seterror] = useState(initialError)
     const {isAuthenticated} = props.auth;
@@ -49,8 +49,8 @@ function Signin(props) {
   
    
    const inputvalidation = ()=>{
-     if(!formdata.username){
-       seterror(prevstate =>({...prevstate,username:"Username must not empty"}) )
+     if(!formdata.email){
+       seterror(prevstate =>({...prevstate,email:"email must not empty"}) )
      }
     
      if(!formdata.password){
@@ -62,7 +62,7 @@ function Signin(props) {
    const onformsubmit =(e)=>{
     e.preventDefault();
     inputvalidation();
-    if(formdata.username&&formdata.password){
+    if(formdata.email&&formdata.password){
       props.loadingaction()
       props.signinuser(formdata,props.history);
      
@@ -87,14 +87,14 @@ function Signin(props) {
         <form className={classes.form} onSubmit={onformsubmit}>
           <TextField onChange={onformchange}
             variant="outlined"
-            type="text"
+            type="email"
             margin="normal"
-          name='username'
+          name='email'
             fullWidth
-            label="Username"
+            label="email"
             autoFocus
           />
-           <Typography variant='inherit' component='small' color='secondary'>{(error.username && !formdata.username) ? error.username : ''}</Typography>
+           <Typography variant='inherit' component='small' color='secondary'>{(error.email && !formdata.email) ? error.email : ''}</Typography>
          
           <TextField onChange={onformchange}
             variant="outlined"

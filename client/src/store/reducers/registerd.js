@@ -21,10 +21,7 @@ export const registerReducers = ( state = initialstate , {type,payload}) => {
             ...state,error:payload,user:'',
         loading:false }
 
-        case LOADING_TRUE:
-            return{
-                ...state,loading:true,circleloading:payload
-            }
+       
 
 
         default:

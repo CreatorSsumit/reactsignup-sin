@@ -11,6 +11,7 @@ function Header(props) {
   let history = useHistory();
   let location = useLocation();
 
+
   var {isAuthenticated} = props.auth
 
   
@@ -25,10 +26,11 @@ function Header(props) {
   }, [props.auth])
 
   
+  
 
     return (
       <Grid align="center" container className={CSSstyle.headerContainer}>
-      <video className={CSSstyle.headerVideo} loop muted autoPlay src={BackgroundVideo} />
+     
       <Box className={CSSstyle.headerContent}>
       <Typography variant="h4" component="h1">Here We Teach So You May Outreach
         <span className={CSSstyle.dot} >.</span>

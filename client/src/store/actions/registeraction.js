@@ -1,10 +1,10 @@
-import {REGISTER_FAILED,REGISTER_SUCCESS,LOADING_TRUE} from "../actiontype";
+import {REGISTER_FAILED,REGISTER_SUCCESS} from "../actiontype";
 
 import axios from "../../utility/axiosconfig"
 
 
 export const registereduser = (newuser)=> dispatch =>{
-  
+  console.log(newuser)
 axios.post('users/signup',newuser).then(success =>{
  return  dispatch(successRegister(success.data.message))
 }).catch(err =>{
@@ -12,6 +12,17 @@ axios.post('users/signup',newuser).then(success =>{
 })
 }
 
+
+export const Otpsend = (email)=> dispatch =>{
+  console.log(email)
+  axios.post('users/otpsend',{email:email}).then(success =>{
+    console.log(success)
+   return  dispatch(successRegister(success.data.message))
+  }).catch(err =>{
+    return  dispatch(failedRegister(err.response.data))
+  })
+  }
+  
 
 export const successRegister = (done)=> ({
 type:REGISTER_SUCCESS,
@@ -25,10 +36,7 @@ export const failedRegister = (err)=> ({
 });
 
 
-export const loadingaction =()=>({
-type:LOADING_TRUE,
-payload:true
-})
+
 
 const errorconvert = (err) =>{
     let errorentity;

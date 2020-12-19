@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import PropsTypes from "prop-types";
 import {bindActionCreators} from "redux";
 import Alert from "../Alert"
-import {registereduser,loadingaction} from "../../store/actions/registeraction"
+import {registereduser,Otpsend} from "../../store/actions/registeraction"
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,10 +33,10 @@ const useStyles = makeStyles((theme) => ({
 function Signup(props) {
   const classes = useStyles();
 
-const initialForm = {username:"",password:"",email:""};
-const initialError = {username:"",password:"",email:""};
+const initialForm = {fullname:"",password:"",email:"",contact:"",otp:""};
+const initialError = {fullname:"",password:"",email:"",contact:"",otp:""};
   const [formdata, setformdata] = useState(initialForm);
-  const [error, seterror] = useState(initialError)
+  const [error, seterror] = useState(initialError);
   
  const onformchange = (e)=>{
    e.persist();
@@ -45,8 +45,8 @@ const initialError = {username:"",password:"",email:""};
 
  
  const inputvalidation = ()=>{
-   if(!formdata.username){
-     seterror(prevstate =>({...prevstate,username:"Username must not empty"}) )
+   if(!formdata.fullname){
+     seterror(prevstate =>({...prevstate,fullname:"fullname must not empty"}) )
    }
    if(!formdata.email){
     seterror(prevstate =>({...prevstate,email:"Email must not empty"}) )
@@ -59,13 +59,24 @@ const initialError = {username:"",password:"",email:""};
  const onformsubmit =(e)=>{
   e.preventDefault();
   inputvalidation();
-  if(formdata.username&&formdata.email&&formdata.password){
-    props.loadingaction();
+  if(formdata.fullname&&formdata.email&&formdata.password){
+    // props.loadingaction();
     props.registereduser(formdata)
     
   }
    }
 
+   const [showotpsend, setshowotpsend] = useState(false)
+
+   const sendotp =()=>{
+props.Otpsend(formdata.email)
+if(formdata.email.trim()){
+  setshowotpsend(true)
+}else{
+  setshowotpsend(false)
+}
+
+   }
    
   
   return (
@@ -94,17 +105,40 @@ const initialError = {username:"",password:"",email:""};
             label="example@john.com"
             autoFocus
           />
+
+            <Button
+            fullWidth
+            variant="contained"
+            className={`${classes.submit} ${CSSstyle.bgcolor}`}
+            onClick={()=>sendotp()}
+          > otp send </Button>
+
+<center><Typography variant='inherit' component='small'  style={{color:"green",fontSize:14}}>{ showotpsend ? 'Otp Send Check Your Email' : " "}</Typography></center> 
+        
+          <TextField onChange={onformchange}
+            text="text"
+            name="otp"
+            type="text"
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            label="enter otp sent by email"
+            autoFocus
+           
+          />
+        
+
           <Typography variant='inherit' component='small' color='secondary'>{(error.email && !formdata.email) ? error.email : ''}</Typography>
           <TextField
           onChange={onformchange}
           type="text"
-          name="username"
+          name="fullname"
             variant="outlined"
             margin="normal"
             fullWidth
-            label="Username"
+            label="fullname"
           />
-            <Typography variant='inherit' component='small' color='secondary'>{(error.username && !formdata.username) ? error.username : ''}</Typography>
+            <Typography variant='inherit' component='small' color='secondary'>{(error.fullname && !formdata.fullname) ? error.fullname : ''}</Typography>
           <TextField
           onChange={onformchange}
           type="password"
@@ -115,6 +149,18 @@ const initialError = {username:"",password:"",email:""};
             fullWidth
             name="password"
             label="Password"
+
+          />
+            <TextField
+          onChange={onformchange}
+          type="number"
+          name="contact"
+
+            variant="outlined"
+            margin="normal"
+            fullWidth
+           
+            label="contact"
 
           />
             <Typography variant='inherit' component='small' color='secondary'>{(error.password && !formdata.password) ? error.password : ''}</Typography>
@@ -156,7 +202,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
- return bindActionCreators({registereduser,loadingaction},dispatch)
+ return bindActionCreators({registereduser,Otpsend},dispatch)
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Signup);

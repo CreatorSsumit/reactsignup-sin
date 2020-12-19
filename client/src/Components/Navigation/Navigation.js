@@ -132,7 +132,7 @@ function Navigation(props) {
       <AppBar position="static" className={CSSstyle.backgroundColor}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-              <Link style={{textDecoration:"none",color:"white"}} className={CSSstyle.Link} to='/'>SheryishKill</Link>           
+              <Link style={{textDecoration:"none",color:"white"}} className={CSSstyle.Link} to='/'>Taskmanagr</Link>           
           </Typography>
           <div className={classes.grow} />
 
